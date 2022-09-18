@@ -2,22 +2,23 @@ import { Column } from "./Column";
 import { AddNewItem } from "./AddNewItem";
 import { AppContainer } from "./styles";
 import { useAppState } from "./state/AppStateContext";
+import { addList } from "./state/actions";
 
 
 export const App = () => {
-  const { lists } = useAppState();
+  const { lists, dispatch } = useAppState();
 
   return (
-    <AppContainer>
-      <>
+    <>
+      <AppContainer>
         {lists.map((list) => (
           <Column text={list.text} key={list.id} id={list.id} />
         ))}
         <AddNewItem
           toggleButtonText="+ Add another list"
-          onAdd={(e) => console.log(e)}
+          onAdd={(text) => dispatch(addList(text))}
         />
-      </>
-    </AppContainer>
+      </AppContainer>
+    </>
   )
 }
