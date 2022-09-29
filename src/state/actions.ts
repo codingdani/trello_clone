@@ -20,13 +20,21 @@ interface MoveListAction {
         hoverId: string
     }
 }
-
+interface MoveTaskAction {
+    type: "MOVE_TASK"
+    payload: {
+        draggedItemId: string
+        hoveredItemId: string | null
+        sourceColumnId: string
+        targetColumnId: string
+    }
+}
 interface SetDraggedItemAction {
     type: "SET_DRAGGED_ITEM"
     payload: DragItem | null
 }
 //discriminated union
-export type Action = AddListAction | AddTaskAction | MoveListAction | SetDraggedItemAction
+export type Action = AddListAction | AddTaskAction | MoveListAction | SetDraggedItemAction | MoveTaskAction
 
 export const addTask = (text: string, listId: string): Action => {
     return (
@@ -56,6 +64,20 @@ export const moveList = (draggedId: string, hoverId: string): Action => {
             payload: {
                 draggedId,
                 hoverId
+            }
+        }
+    )
+}
+
+export const moveTask = (draggedItemId: string, hoveredItemId: string | null, sourceColumnId: string, targetColumnId: string): Action => {
+    return (
+        {
+            type: "MOVE_TASK",
+            payload: {
+                draggedItemId,
+                hoveredItemId,
+                sourceColumnId,
+                targetColumnId
             }
         }
     )
